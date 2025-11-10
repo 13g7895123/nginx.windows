@@ -1,0 +1,79 @@
+2025/11/04 14:41:14 [notice] 35036#18984: signal process started
+2025/11/04 14:41:14 [error] 35036#18984: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 14:41:18 [emerg] 19840#26012: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 14:41:28 [emerg] 10516#28700: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 14:41:36 [emerg] 32904#36500: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 14:56:44 [emerg] 24888#29868: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 14:58:05 [emerg] 32776#18224: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:03:24 [emerg] 7520#31036: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:03:36 [emerg] 12000#25608: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:11:17 [emerg] 36548#26304: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:11:32 [emerg] 30332#35980: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:12:45 [emerg] 32624#33268: CreateFile() "C:\Jarvis\22_nginx\conf\mime.types" failed (2: The system cannot find the file specified) in C:\Jarvis\22_nginx\conf\nginx.conf:21
+2025/11/04 15:37:33 [notice] 2868#25448: signal process started
+2025/11/04 15:37:33 [error] 2868#25448: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:38:44 [notice] 28216#36356: signal process started
+2025/11/04 15:38:44 [error] 28216#36356: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:39:00 [notice] 20500#37648: signal process started
+2025/11/04 15:39:00 [error] 20500#37648: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:47:21 [notice] 30976#25728: signal process started
+2025/11/04 15:47:21 [error] 30976#25728: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:48:44 [notice] 35916#37596: signal process started
+2025/11/04 15:48:44 [error] 35916#37596: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:51:55 [notice] 37516#21148: signal process started
+2025/11/04 15:51:55 [error] 37516#21148: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:53:54 [notice] 25396#34248: signal process started
+2025/11/04 15:53:54 [error] 25396#34248: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:54:26 [notice] 17080#35848: signal process started
+2025/11/04 15:54:26 [error] 17080#35848: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:54:35 [notice] 23588#37452: signal process started
+2025/11/04 15:54:35 [error] 23588#37452: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:54:44 [notice] 36100#27392: signal process started
+2025/11/04 15:54:44 [error] 36100#27392: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 15:58:10 [emerg] 35952#9776: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/cm.re.conf:6
+2025/11/04 15:58:32 [notice] 34028#37380: signal process started
+2025/11/04 15:58:32 [error] 34028#37380: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 16:00:03 [notice] 35232#31176: signal process started
+2025/11/04 16:00:03 [error] 35232#31176: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 16:03:28 [notice] 16092#37600: signal process started
+2025/11/04 16:03:28 [error] 16092#37600: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/04 16:04:24 [notice] 244#1144: signal process started
+2025/11/04 16:04:24 [error] 244#1144: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/05 09:29:11 [notice] 17644#5064: signal process started
+2025/11/05 09:29:11 [error] 17644#5064: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/05 09:29:13 [notice] 21836#12616: signal process started
+2025/11/05 09:29:13 [error] 21836#12616: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 09:57:04 [notice] 5912#27148: signal process started
+2025/11/07 09:57:04 [error] 5912#27148: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 09:58:26 [notice] 6044#28460: signal process started
+2025/11/07 09:58:26 [error] 6044#28460: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:32:23 [notice] 2484#15656: signal process started
+2025/11/07 10:32:23 [error] 2484#15656: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:32:37 [notice] 22540#4556: signal process started
+2025/11/07 10:32:37 [error] 22540#4556: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:35:25 [notice] 14112#5832: signal process started
+2025/11/07 10:35:25 [error] 14112#5832: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:53:45 [notice] 27480#22704: signal process started
+2025/11/07 10:53:45 [error] 27480#22704: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:54:31 [notice] 26652#488: signal process started
+2025/11/07 10:54:31 [error] 26652#488: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 10:54:51 [notice] 3740#7992: signal process started
+2025/11/07 10:54:51 [error] 3740#7992: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:01:21 [notice] 23864#26408: signal process started
+2025/11/07 11:01:21 [error] 23864#26408: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:02:02 [notice] 26704#24816: signal process started
+2025/11/07 11:02:02 [error] 26704#24816: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:02:15 [notice] 25544#26120: signal process started
+2025/11/07 11:02:15 [error] 25544#26120: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:12:38 [notice] 26272#27316: signal process started
+2025/11/07 11:12:38 [error] 26272#27316: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:13:59 [notice] 8264#16312: signal process started
+2025/11/07 11:13:59 [error] 8264#16312: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:21:56 [notice] 27684#22156: signal process started
+2025/11/07 11:21:56 [error] 27684#22156: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 11:22:10 [notice] 2352#28476: signal process started
+2025/11/07 11:22:10 [error] 2352#28476: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 13:49:10 [notice] 5572#21364: signal process started
+2025/11/07 13:49:10 [error] 5572#21364: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/11/07 13:58:41 [notice] 30644#29412: signal process started
+2025/11/07 13:58:41 [error] 30644#29412: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)

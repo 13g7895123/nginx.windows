@@ -1,0 +1,47 @@
+# .gitignore for Windows nginx project
+
+# nginx 執行檔和二進制文件
+nginx/*.exe
+nginx/*.dll
+nginx/docs/
+nginx/html/
+nginx/temp/
+nginx/contrib/
+
+# 日誌文件
+logs/*.log
+logs/*.pid
+
+# SSL 憑證（私鑰不應該提交）
+ssl/*.key
+ssl/*.crt
+ssl/*.pfx
+ssl/*.pem
+
+# 實際的配置文件（不包含範本）
+conf.d/*.conf
+!conf.d/*.template
+
+# 臨時文件
+*.tmp
+*.temp
+temp/
+
+# Windows 系統文件
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# 編輯器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# PowerShell 執行歷史
+*.ps1xml
+
+# 備份文件
+*.bak
+*.backup

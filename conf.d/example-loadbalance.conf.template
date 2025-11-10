@@ -1,0 +1,32 @@
+# 負載平衡反向代理範本
+# 將流量分配到多個後端服務器
+
+# 定義後端服務器群組
+upstream backend_servers {
+    # 負載平衡策略：
+    # - 預設：輪詢 (round-robin)
+    # - ip_hash：根據客戶端 IP 分配
+    # - least_conn：最少連接數
+    
+    # ip_hash;  # 取消註釋以啟用 IP Hash
+    
+    server localhost:3000 weight=1;
+    server localhost:3001 weight=1;
+    server localhost:3002 weight=1;
+    
+    # 備援服務器（當其他服務器都失敗時使用）
+    # server localhost:3003 backup;
+}
+
+server {
+    listen       80;
+    server_name  loadbalance.example.local;
+
+    location / {
+        # 代理到後端服務器群組
+        proxy_pass http://backend_servers;
+        
+        # 健康檢查相關
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+    }
+}

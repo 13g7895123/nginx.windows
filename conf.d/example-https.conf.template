@@ -1,0 +1,36 @@
+# HTTPS 反向代理範本（需要 SSL 憑證）
+# 複製此文件並修改為實際配置
+
+server {
+    listen       443 ssl;
+    server_name  example.local;
+
+    # SSL 憑證配置
+    ssl_certificate      ../ssl/example.local.crt;
+    ssl_certificate_key  ../ssl/example.local.key;
+
+    # SSL 安全設置
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+    ssl_protocols        TLSv1.2 TLSv1.3;
+    ssl_ciphers          HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    # 訪問日誌（可選）
+    # access_log  ../logs/example.local.ssl.access.log  main;
+
+    location / {
+        # 反向代理到後端服務
+        proxy_pass http://localhost:3000;
+        
+        # HTTPS 特定頭設置
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
+# HTTP 自動重定向到 HTTPS（可選）
+server {
+    listen       80;
+    server_name  example.local;
+    return 301 https://$server_name$request_uri;
+}

@@ -1,0 +1,21 @@
+# WebSocket 反向代理範本
+# 適用於 WebSocket 連接（如 Socket.io, SignalR 等）
+
+server {
+    listen       80;
+    server_name  ws.example.local;
+
+    location / {
+        # 反向代理到 WebSocket 後端
+        proxy_pass http://localhost:3001;
+        
+        # WebSocket 必要的頭設置
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        # 增加超時時間以維持長連接
+        proxy_read_timeout 86400;
+        proxy_send_timeout 86400;
+    }
+}
