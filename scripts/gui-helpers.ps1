@@ -32,6 +32,17 @@ function Write-GuiLog {
     }
 }
 
+# Write a text file using UTF-8 without BOM (nginx fails to parse BOM-prefixed configs)
+function Set-FileUtf8NoBom {
+    param(
+        [Parameter(Mandatory=$true)][string]$Path,
+        [Parameter(Mandatory=$true)][string]$Content
+    )
+
+    $encoding = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($Path, $Content, $encoding)
+}
+
 Write-GuiLog "=== GUI Helper Module Loaded ==="
 Write-GuiLog "Log file: $guiLogFile"
 
@@ -352,9 +363,32 @@ function Remove-SelectedProxy {
 function Show-GenerateSslDialog {
     Write-GuiLog "User clicked Generate Certificate button"
     
+    # Get list of domains from existing proxy configurations
+    $proxyDomains = @()
+    $confDir = Join-Path $projectRoot "conf.d"
+    if (Test-Path $confDir) {
+        $configs = Get-ChildItem -Path $confDir -Filter "*.conf" -ErrorAction SilentlyContinue
+        foreach ($config in $configs) {
+            try {
+                $content = Get-Content -Path $config.FullName -Raw -ErrorAction SilentlyContinue
+                if ($content -match 'server_name\s+([^;]+);') {
+                    $domains = $matches[1] -split '\s+' | Where-Object { $_ -ne '' }
+                    foreach ($d in $domains) {
+                        if ($d -and $d -ne 'localhost' -and $proxyDomains -notcontains $d) {
+                            $proxyDomains += $d
+                        }
+                    }
+                }
+            } catch {
+                Write-GuiLog "Error reading config $($config.Name): $_" "WARN"
+            }
+        }
+    }
+    Write-GuiLog "Found proxy domains: $($proxyDomains -join ', ')"
+    
     $sslForm = New-Object System.Windows.Forms.Form
     $sslForm.Text = "Generate SSL Certificate"
-    $sslForm.Size = New-Object System.Drawing.Size(500, 330)
+    $sslForm.Size = New-Object System.Drawing.Size(500, 400)
     $sslForm.StartPosition = "CenterParent"
     $sslForm.FormBorderStyle = "FixedDialog"
     $sslForm.MaximizeBox = $false
@@ -365,11 +399,19 @@ function Show-GenerateSslDialog {
     $domainLabel.Text = "Domain:"
     $sslForm.Controls.Add($domainLabel)
     
-    $domainText = New-Object System.Windows.Forms.TextBox
-    $domainText.Location = New-Object System.Drawing.Point(130, 18)
-    $domainText.Size = New-Object System.Drawing.Size(320, 25)
-    $domainText.Text = "example.local"
-    $sslForm.Controls.Add($domainText)
+    # Domain dropdown (ComboBox)
+    $domainCombo = New-Object System.Windows.Forms.ComboBox
+    $domainCombo.Location = New-Object System.Drawing.Point(130, 18)
+    $domainCombo.Size = New-Object System.Drawing.Size(320, 25)
+    $domainCombo.DropDownStyle = "DropDown"  # Allow custom input too
+    
+    if ($proxyDomains.Count -gt 0) {
+        $domainCombo.Items.AddRange($proxyDomains)
+        $domainCombo.SelectedIndex = 0
+    } else {
+        $domainCombo.Text = "example.local"
+    }
+    $sslForm.Controls.Add($domainCombo)
     
     $daysLabel = New-Object System.Windows.Forms.Label
     $daysLabel.Location = New-Object System.Drawing.Point(20, 60)
@@ -385,32 +427,42 @@ function Show-GenerateSslDialog {
     $daysText.Value = 365
     $sslForm.Controls.Add($daysText)
     
+    # Auto-update config checkbox
+    $autoUpdateCheck = New-Object System.Windows.Forms.CheckBox
+    $autoUpdateCheck.Location = New-Object System.Drawing.Point(130, 98)
+    $autoUpdateCheck.Size = New-Object System.Drawing.Size(320, 25)
+    $autoUpdateCheck.Text = "Auto-update nginx config to HTTPS"
+    $autoUpdateCheck.Checked = $true
+    $sslForm.Controls.Add($autoUpdateCheck)
+    
     $infoLabel = New-Object System.Windows.Forms.Label
-    $infoLabel.Location = New-Object System.Drawing.Point(20, 100)
-    $infoLabel.Size = New-Object System.Drawing.Size(450, 110)
+    $infoLabel.Location = New-Object System.Drawing.Point(20, 135)
+    $infoLabel.Size = New-Object System.Drawing.Size(450, 140)
     $infoLabel.Text = @"
-This will generate a self-signed SSL certificate for the specified domain.
+This will generate a self-signed SSL certificate for the selected domain.
 
 Generated files:
 - Certificate: ssl\<domain>.crt
 - Private Key: ssl\<domain>.key
 
-Note:
-- Self-signed certificates are for development/testing only
-- Browsers will show security warnings (this is normal)
-- Use proper CA-signed certificates for production
+If 'Auto-update nginx config' is checked:
+- Add HTTPS (port 443) server block with SSL settings
+- Add HTTP to HTTPS redirect (port 80)
+- Automatically reload nginx configuration
+
+Note: Self-signed certificates are for development only.
 "@
     $sslForm.Controls.Add($infoLabel)
     
     $okButton = New-Object System.Windows.Forms.Button
-    $okButton.Location = New-Object System.Drawing.Point(250, 250)
+    $okButton.Location = New-Object System.Drawing.Point(250, 310)
     $okButton.Size = New-Object System.Drawing.Size(100, 35)
     $okButton.Text = "Generate"
     $okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
     $sslForm.Controls.Add($okButton)
     
     $cancelButton = New-Object System.Windows.Forms.Button
-    $cancelButton.Location = New-Object System.Drawing.Point(360, 250)
+    $cancelButton.Location = New-Object System.Drawing.Point(360, 310)
     $cancelButton.Size = New-Object System.Drawing.Size(100, 35)
     $cancelButton.Text = "Cancel"
     $cancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
@@ -422,10 +474,11 @@ Note:
     $result = $sslForm.ShowDialog()
     
     if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
-        $domain = $domainText.Text.Trim()
+        $domain = $domainCombo.Text.Trim()
         $days = $daysText.Value
+        $autoUpdate = $autoUpdateCheck.Checked
         
-        Write-GuiLog "Generating SSL certificate: Domain=$domain, Days=$days"
+        Write-GuiLog "Generating SSL certificate: Domain=$domain, Days=$days, AutoUpdate=$autoUpdate"
         
         if ([string]::IsNullOrWhiteSpace($domain)) {
             Write-GuiLog "Validation failed: Domain is empty" "ERROR"
@@ -434,21 +487,62 @@ Note:
         }
         
         try {
+            # Step 1: Generate SSL certificate
             $generateSslScript = Join-Path $scriptPath "generate-ssl.ps1"
-            Write-GuiLog "Executing: $generateSslScript -Domain $domain -Days $days"
+            Write-GuiLog "Executing: $generateSslScript -Domain $domain -Days $days -Force"
             
-            $output = & $generateSslScript -Domain $domain -Days $days 2>&1
+            $output = & $generateSslScript -Domain $domain -Days $days -Force 2>&1
             
             Write-GuiLog "Script output: $output"
+            Write-GuiLog "Exit code: $LASTEXITCODE"
             
-            if ($LASTEXITCODE -eq 0) {
-                Write-GuiLog "SSL certificate generated successfully: $domain" "SUCCESS"
-                [System.Windows.Forms.MessageBox]::Show("SSL certificate generated successfully!`n`n$output", "Success", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
-                Load-SslList
-            } else {
+            if ($LASTEXITCODE -ne 0) {
                 Write-GuiLog "Failed to generate SSL certificate: $output" "ERROR"
                 [System.Windows.Forms.MessageBox]::Show("Failed to generate SSL certificate:`n`n$output", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
+                return
             }
+            
+            Write-GuiLog "SSL certificate generated successfully: $domain" "SUCCESS"
+            
+            # Step 2: Auto-update nginx config if checked
+            if ($autoUpdate) {
+                Write-GuiLog "Auto-updating nginx config for $domain..."
+                $updateResult = Update-ProxyToHttps -Domain $domain
+                
+                if ($updateResult) {
+                    Write-GuiLog "nginx config updated successfully" "SUCCESS"
+                    
+                    # Reload nginx
+                    Write-GuiLog "Reloading nginx configuration..."
+                    $managerScript = Join-Path $scriptPath "nginx-manager.ps1"
+                    & $managerScript -Action reload 2>&1 | Out-Null
+                    
+                    [System.Windows.Forms.MessageBox]::Show(
+                        "SSL certificate generated and nginx config updated!`n`nDomain: $domain`n`nChanges:`n- HTTPS server on port 443 with SSL`n- HTTP (port 80) redirects to HTTPS`n- Certificate: ssl\$domain.crt`n- Private Key: ssl\$domain.key`n`nConfiguration reloaded successfully.",
+                        "Success",
+                        [System.Windows.Forms.MessageBoxButtons]::OK,
+                        [System.Windows.Forms.MessageBoxIcon]::Information
+                    )
+                } else {
+                    [System.Windows.Forms.MessageBox]::Show(
+                        "SSL certificate generated but failed to update nginx config.`n`nPlease manually update the configuration.",
+                        "Partial Success",
+                        [System.Windows.Forms.MessageBoxButtons]::OK,
+                        [System.Windows.Forms.MessageBoxIcon]::Warning
+                    )
+                }
+            } else {
+                [System.Windows.Forms.MessageBox]::Show(
+                    "SSL certificate generated successfully!`n`nDomain: $domain`nCertificate: ssl\$domain.crt`nPrivate Key: ssl\$domain.key`n`nRemember to manually update nginx config to use HTTPS.",
+                    "Success",
+                    [System.Windows.Forms.MessageBoxButtons]::OK,
+                    [System.Windows.Forms.MessageBoxIcon]::Information
+                )
+            }
+            
+            Load-SslList
+            Load-ProxyList
+            
         } catch {
             $errorMsg = $_.Exception.Message
             Write-GuiLog "Error generating certificate: $errorMsg" "ERROR"
@@ -456,6 +550,159 @@ Note:
         }
     } else {
         Write-GuiLog "User cancelled SSL certificate generation"
+    }
+}
+
+# Function to update proxy configuration to HTTPS
+function Update-ProxyToHttps {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Domain
+    )
+    
+    Write-GuiLog "Updating proxy config to HTTPS for: $Domain"
+    
+    try {
+        $confDir = Join-Path $projectRoot "conf.d"
+        $sslDir = Join-Path $projectRoot "ssl"
+        
+        # Find config file for this domain
+        $configFile = $null
+        $configs = Get-ChildItem -Path $confDir -Filter "*.conf" -ErrorAction SilentlyContinue
+        
+        foreach ($config in $configs) {
+            $content = Get-Content -Path $config.FullName -Raw -ErrorAction SilentlyContinue
+            if ($content -match "server_name\s+[^;]*\b$([regex]::Escape($Domain))\b") {
+                $configFile = $config.FullName
+                Write-GuiLog "Found config file: $($config.Name)"
+                break
+            }
+        }
+        
+        if (-not $configFile) {
+            Write-GuiLog "No config file found for domain: $Domain" "ERROR"
+            return $false
+        }
+        
+        # Read existing config
+        $originalContent = Get-Content -Path $configFile -Raw
+        
+        # Extract proxy_pass URL from existing config
+        $proxyPass = "http://localhost:3000"
+        if ($originalContent -match 'proxy_pass\s+([^;]+);') {
+            $proxyPass = $matches[1].Trim()
+        }
+        Write-GuiLog "Extracted proxy_pass: $proxyPass"
+        
+        # Extract all location blocks (handle nested braces)
+        $locationBlocks = ""
+        
+        # Use a more robust regex to extract location blocks
+        $locationPattern = '(?s)location\s+[^\{]+\{(?:[^\{\}]|\{[^\}]*\})*\}'
+        $locationMatches = [regex]::Matches($originalContent, $locationPattern)
+        
+        if ($locationMatches.Count -gt 0) {
+            foreach ($match in $locationMatches) {
+                $locationBlock = $match.Value.Trim()
+                $locationBlocks += "    $locationBlock`n`n"
+            }
+            Write-GuiLog "Extracted $($locationMatches.Count) location block(s)"
+        }
+        
+        # If no location blocks found, create a default one
+        if ([string]::IsNullOrWhiteSpace($locationBlocks)) {
+            Write-GuiLog "No location blocks found, creating default"
+            $locationBlocks = @"
+    location / {
+        proxy_pass $proxyPass;
+        proxy_http_version 1.1;
+        
+        proxy_set_header Host `$host;
+        proxy_set_header X-Real-IP `$remote_addr;
+        proxy_set_header X-Forwarded-For `$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto `$scheme;
+        
+        # WebSocket support
+        proxy_set_header Upgrade `$http_upgrade;
+        proxy_set_header Connection "upgrade";
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+"@
+        }
+        
+        # Create new HTTPS config with both server blocks
+        $httpsConfig = @"
+# HTTPS Reverse Proxy Configuration
+# Domain: $Domain
+# Target: $proxyPass
+# SSL Updated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+
+# HTTPS Server (Port 443)
+server {
+    listen       443 ssl;
+    server_name  $Domain;
+
+    # SSL Certificate
+    ssl_certificate      ../ssl/$Domain.crt;
+    ssl_certificate_key  ../ssl/$Domain.key;
+
+    # SSL Security Settings
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+    ssl_protocols        TLSv1.2 TLSv1.3;
+    ssl_ciphers          HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    # Logs
+    access_log  ../logs/$Domain.access.log  main;
+    error_log   ../logs/$Domain.error.log;
+
+$locationBlocks
+}
+
+# HTTP to HTTPS Redirect (Port 80)
+server {
+    listen       80;
+    server_name  $Domain;
+    return 301 https://`$server_name`$request_uri;
+}
+"@
+        
+        # Backup original config
+        $backupFile = "$configFile.bak"
+        Copy-Item -Path $configFile -Destination $backupFile -Force
+        Write-GuiLog "Backed up original config to: $backupFile"
+        
+    # Write new config without UTF-8 BOM to keep nginx happy
+    Set-FileUtf8NoBom -Path $configFile -Content $httpsConfig
+        Write-GuiLog "Wrote new HTTPS config to: $configFile"
+        
+        # Test configuration
+        $managerScript = Join-Path $scriptPath "nginx-manager.ps1"
+        $testOutput = & $managerScript -Action test 2>&1
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-GuiLog "Config test failed, restoring backup: $testOutput" "ERROR"
+            Copy-Item -Path $backupFile -Destination $configFile -Force
+            [System.Windows.Forms.MessageBox]::Show(
+                "nginx configuration test failed!`n`n$testOutput`n`nOriginal configuration has been restored.",
+                "Configuration Error",
+                [System.Windows.Forms.MessageBoxButtons]::OK,
+                [System.Windows.Forms.MessageBoxIcon]::Error
+            )
+            return $false
+        }
+        
+        Write-GuiLog "Config test passed"
+        return $true
+        
+    } catch {
+        $errorMsg = $_.Exception.Message
+        Write-GuiLog "Error updating config to HTTPS: $errorMsg" "ERROR"
+        return $false
     }
 }
 
