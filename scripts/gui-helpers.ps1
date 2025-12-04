@@ -671,9 +671,10 @@ server {
 }
 "@
         
-        # Backup original config
+        # Backup original config (also ensure no BOM in backup)
         $backupFile = "$configFile.bak"
-        Copy-Item -Path $configFile -Destination $backupFile -Force
+        $originalContentForBackup = Get-Content -Path $configFile -Raw
+        Set-FileUtf8NoBom -Path $backupFile -Content $originalContentForBackup
         Write-GuiLog "Backed up original config to: $backupFile"
         
     # Write new config without UTF-8 BOM to keep nginx happy
@@ -686,7 +687,9 @@ server {
         
         if ($LASTEXITCODE -ne 0) {
             Write-GuiLog "Config test failed, restoring backup: $testOutput" "ERROR"
-            Copy-Item -Path $backupFile -Destination $configFile -Force
+            # Restore backup without BOM
+            $backupContent = Get-Content -Path $backupFile -Raw
+            Set-FileUtf8NoBom -Path $configFile -Content $backupContent
             [System.Windows.Forms.MessageBox]::Show(
                 "nginx configuration test failed!`n`n$testOutput`n`nOriginal configuration has been restored.",
                 "Configuration Error",

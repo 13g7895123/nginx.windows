@@ -156,3 +156,48 @@
 2025/12/03 15:06:56 [emerg] 29224#10676: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/cm.l.conf:7
 2025/12/03 15:06:57 [notice] 31028#22772: signal process started
 2025/12/03 15:06:57 [error] 31028#22772: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/03 16:15:52 [notice] 33144#33772: signal process started
+2025/12/03 16:15:52 [error] 33144#33772: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 09:08:39 [notice] 12136#19984: signal process started
+2025/12/04 09:08:39 [error] 12136#19984: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 09:15:56 [notice] 15468#1664: signal process started
+2025/12/04 09:15:56 [error] 15468#1664: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 14:56:06 [notice] 34368#34648: signal process started
+2025/12/04 14:56:06 [error] 34368#34648: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 14:56:09 [emerg] 34684#32784: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 14:58:08 [emerg] 32844#30876: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 14:58:24 [emerg] 28860#36596: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 14:58:29 [emerg] 35216#19616: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 14:58:43 [emerg] 29888#3064: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 14:58:48 [emerg] 12916#34804: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:01:00 [emerg] 29708#36664: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:01:03 [emerg] 13472#29600: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:01:18 [emerg] 31500#34240: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:02:28 [emerg] 24380#28228: unknown directive "﻿#" in C:\Jarvis\22_nginx\nginx/..\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:02:34 [emerg] 1340#36184: unknown directive "﻿#" in C:\Jarvis\22_nginx\nginx/..\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:03:28 [emerg] 28020#27232: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:03:32 [emerg] 36508#23528: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:03:35 [emerg] 29156#28276: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:03:45 [emerg] 36396#35536: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:03:55 [emerg] 29088#26508: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:04:11 [emerg] 36820#34204: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:04:26 [emerg] 20260#29484: unknown directive "﻿#" in C:\Jarvis\22_nginx\nginx/..\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:05:35 [emerg] 35940#34488: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:05:39 [emerg] 36768#11556: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:05:42 [emerg] 35212#36580: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:05:46 [emerg] 36588#36400: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:05:57 [emerg] 18164#31448: unknown directive "﻿#" in C:\Jarvis\22_nginx\nginx/..\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:08:12 [notice] 32856#35048: signal process started
+2025/12/04 15:08:12 [error] 32856#35048: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 15:37:09 [emerg] 35048#22312: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:37:11 [notice] 29204#34660: signal process started
+2025/12/04 15:37:11 [error] 29204#34660: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 15:37:13 [notice] 30404#31700: signal process started
+2025/12/04 15:37:13 [error] 30404#31700: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 15:37:16 [emerg] 19284#31948: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:37:20 [emerg] 24440#36620: unknown directive "﻿#" in C:\Jarvis\22_nginx\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:38:12 [emerg] 37240#8096: unknown directive "﻿#" in C:\Jarvis\22_nginx\nginx/..\conf\../conf.d/crm.l.conf:7
+2025/12/04 15:39:56 [notice] 37240#31676: signal process started
+2025/12/04 15:39:56 [error] 37240#31676: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2025/12/04 15:39:57 [notice] 37824#30056: signal process started
+2025/12/04 15:39:57 [error] 37824#30056: CreateFile() "C:\Jarvis\22_nginx\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
